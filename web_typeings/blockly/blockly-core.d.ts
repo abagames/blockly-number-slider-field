@@ -5,6 +5,7 @@
 
 declare namespace Blockly {
   const JavaScript: any;
+  const utils: any;
 
   class Block extends Block__Class {}
   /** Fake class which should be extended to avoid inheriting static properties */
@@ -2321,6 +2322,8 @@ declare namespace Blockly {
      * @private
      */
     getAbsoluteXY_(): void;
+
+    static register(name: string, klass: any);
   }
 }
 
@@ -3691,6 +3694,8 @@ declare namespace goog {
     interface Rect {}
     interface Size {}
     interface Coordinate {}
+    function toDegrees(v: number);
+    function toRadians(v: number);
   }
 
   namespace html {
@@ -3721,6 +3726,11 @@ declare namespace goog {
    * @suppress {duplicate}
    */
   function getMsg(str: string, opt_values?: { [key: string]: string }): string;
+
+  function provide(v: string);
+  function require(v: string);
+  function inherits(c1: any, c2: any);
+  const userAgent: any;
 }
 
 declare namespace goog.getMsg {
