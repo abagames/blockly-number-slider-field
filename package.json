@@ -1,0 +1,17 @@
+{
+  "name": "blockly-number-slider-field",
+  "version": "1.0.0",
+  "description": "Custom number field with 2d slider for Blockly",
+  "scripts": {
+    "start": "webpack-serve",
+    "build": "webpack"
+  },
+  "author": "ABA",
+  "license": "MIT",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.0.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-serve": "^1.0.2"
+  }
+}
