@@ -19,8 +19,5 @@ module.exports = {
         loader: "awesome-typescript-loader"
       }
     ]
-  },
-  serve: {
-    content: "docs"
   }
 };
