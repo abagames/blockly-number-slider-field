@@ -26,7 +26,7 @@ Blockly.FieldNumberSlider.fromJson = function(options) {
 
 Blockly.FieldNumberSlider.SIZE = 100;
 Blockly.FieldNumberSlider.SIZE_HALF = 100 / 2;
-Blockly.FieldNumberSlider.INT_SIZE = 30;
+Blockly.FieldNumberSlider.INT_SIZE = 20;
 Blockly.FieldNumberSlider.PADDING = 20;
 
 Blockly.FieldNumberSlider.prototype.render_ = function() {
@@ -46,11 +46,8 @@ Blockly.FieldNumberSlider.prototype.dispose_ = function() {
     if (thisField.clickWrapper_) {
       Blockly.unbindEvent_(thisField.clickWrapper_);
     }
-    if (thisField.moveWrapper1_) {
-      Blockly.unbindEvent_(thisField.moveWrapper1_);
-    }
-    if (thisField.moveWrapper2_) {
-      Blockly.unbindEvent_(thisField.moveWrapper2_);
+    if (thisField.moveWrapper_) {
+      Blockly.unbindEvent_(thisField.moveWrapper_);
     }
   };
 };
@@ -124,33 +121,36 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
     },
     svg
   );
-
   this.clickWrapper_ = Blockly.bindEvent_(
     svg,
     "click",
     this,
     Blockly.WidgetDiv.hide
   );
-  this.moveWrapper1_ = Blockly.bindEvent_(
+  this.moveWrapper_ = Blockly.bindEvent_(
     svg,
     "mousemove",
     this,
     this.onMouseMove
   );
-  /*this.moveWrapper2_ = Blockly.bindEvent_(
-    this.gauge_,
-    "mousemove",
-    this,
-    this.onMouseMove
-  );*/
-  this.updateGraph_();
 };
 
 Blockly.FieldNumberSlider.prototype.onMouseMove = function(e) {
-  const bBox = this.floatRect_.getBoundingClientRect();
-  const dx = e.clientX - bBox.left;
-  const dy = e.clientY - bBox.top;
-  const value = dx;
+  const iBox = this.intRect_.getBoundingClientRect();
+  const fBox = this.floatRect_.getBoundingClientRect();
+  const rx = e.clientX - iBox.left;
+  const fy = e.clientY - fBox.top;
+  const vx = Math.min(Math.max(0, rx), 99);
+  let value;
+  if (fy < -Blockly.FieldNumberSlider.PADDING / 2) {
+    value = Math.floor(vx / 10);
+  } else {
+    const vy = Math.min(Math.max(0, fy), 99);
+    const s = Math.pow(vy / 99, 3) * 999 + 1;
+    const v = (vx - 50) / 49 * s;
+    const tf = Math.abs(v) < 1 ? 2 : Math.abs(v) < 10 ? 1 : 0;
+    value = v.toFixed(tf);
+  }
   Blockly.FieldTextInput.htmlInput_.value = value.toString();
   this.setValue(value);
   this.validate_();
@@ -162,16 +162,7 @@ Blockly.FieldNumberSlider.prototype.setText = function(text) {
   if (!this.textElement_) {
     return;
   }
-  this.updateGraph_();
   this.size_.width = 0;
-};
-
-Blockly.FieldNumberSlider.prototype.updateGraph_ = function() {
-  if (!this.rect_) {
-    return;
-  }
-  //this.line_.setAttribute("x2", x2);
-  //this.line_.setAttribute("y2", y2);
 };
 
 Blockly.FieldNumberSlider.prototype.classValidator = function(text) {
