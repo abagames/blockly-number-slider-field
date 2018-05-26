@@ -26,6 +26,7 @@ Blockly.FieldNumberSlider.fromJson = function(options) {
 
 Blockly.FieldNumberSlider.SIZE = 100;
 Blockly.FieldNumberSlider.SIZE_HALF = 100 / 2;
+Blockly.FieldNumberSlider.INT_SIZE = 30;
 Blockly.FieldNumberSlider.PADDING = 20;
 
 Blockly.FieldNumberSlider.prototype.render_ = function() {
@@ -70,8 +71,9 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
       "xmlns:xlink": "http://www.w3.org/1999/xlink",
       version: "1.1",
       height:
+        Blockly.FieldNumberSlider.INT_SIZE +
         Blockly.FieldNumberSlider.SIZE +
-        Blockly.FieldNumberSlider.PADDING * 2 +
+        Blockly.FieldNumberSlider.PADDING * 3 +
         "px",
       width:
         Blockly.FieldNumberSlider.SIZE +
@@ -80,11 +82,24 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
     },
     div
   );
-  this.rect_ = Blockly.utils.createSvgElement(
+  this.intRect_ = Blockly.utils.createSvgElement(
     "rect",
     {
       x: Blockly.FieldNumberSlider.PADDING,
       y: Blockly.FieldNumberSlider.PADDING,
+      width: Blockly.FieldNumberSlider.SIZE,
+      height: Blockly.FieldNumberSlider.INT_SIZE,
+      class: "blocklyAngleCircle"
+    },
+    svg
+  );
+  this.floatRect_ = Blockly.utils.createSvgElement(
+    "rect",
+    {
+      x: Blockly.FieldNumberSlider.PADDING,
+      y:
+        Blockly.FieldNumberSlider.PADDING * 2 +
+        Blockly.FieldNumberSlider.INT_SIZE,
       width: Blockly.FieldNumberSlider.SIZE,
       height: Blockly.FieldNumberSlider.SIZE,
       class: "blocklyAngleCircle"
@@ -96,10 +111,15 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
     {
       x1:
         Blockly.FieldNumberSlider.SIZE_HALF + Blockly.FieldNumberSlider.PADDING,
-      y1: Blockly.FieldNumberSlider.PADDING,
+      y1:
+        Blockly.FieldNumberSlider.PADDING * 2 +
+        Blockly.FieldNumberSlider.INT_SIZE,
       x2:
         Blockly.FieldNumberSlider.SIZE_HALF + Blockly.FieldNumberSlider.PADDING,
-      y2: Blockly.FieldNumberSlider.SIZE + Blockly.FieldNumberSlider.PADDING,
+      y2:
+        Blockly.FieldNumberSlider.SIZE +
+        Blockly.FieldNumberSlider.PADDING * 2 +
+        Blockly.FieldNumberSlider.INT_SIZE,
       class: "blocklyAngleMarks"
     },
     svg
@@ -127,7 +147,7 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
 };
 
 Blockly.FieldNumberSlider.prototype.onMouseMove = function(e) {
-  const bBox = this.rect_.getBoundingClientRect();
+  const bBox = this.floatRect_.getBoundingClientRect();
   const dx = e.clientX - bBox.left;
   const dy = e.clientY - bBox.top;
   const value = dx;
