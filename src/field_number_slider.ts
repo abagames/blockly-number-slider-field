@@ -52,6 +52,11 @@ Blockly.FieldNumberSlider.prototype.dispose_ = function() {
   };
 };
 
+Blockly.FieldNumberSlider.prototype.addText = function(text, x, y) {
+  const te = Blockly.utils.createSvgElement("text", { x, y }, this.svg_);
+  te.textContent = text;
+};
+
 Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
   var noFocus =
     goog.userAgent.MOBILE || goog.userAgent.ANDROID || goog.userAgent.IPAD;
@@ -78,6 +83,59 @@ Blockly.FieldNumberSlider.prototype.showEditor_ = function() {
         "px"
     },
     div
+  );
+  this.svg_ = svg;
+  this.addText(
+    "0",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.02,
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.INT_SIZE * 0.8
+  );
+  this.addText(
+    "9",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.89,
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.INT_SIZE * 0.8
+  );
+  this.addText(
+    "-",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.02,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.12
+  );
+  this.addText(
+    "0",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE_HALF,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.12
+  );
+  this.addText(
+    "1",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.88,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.12
+  );
+  this.addText(
+    "10",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.81,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.27
+  );
+  this.addText(
+    "100",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.71,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.53
+  );
+  this.addText(
+    "1000",
+    Blockly.FieldNumberSlider.PADDING + Blockly.FieldNumberSlider.SIZE * 0.62,
+    Blockly.FieldNumberSlider.PADDING * 2 +
+      Blockly.FieldNumberSlider.INT_SIZE +
+      Blockly.FieldNumberSlider.SIZE * 0.97
   );
   this.intRect_ = Blockly.utils.createSvgElement(
     "rect",
@@ -140,7 +198,7 @@ Blockly.FieldNumberSlider.prototype.onMouseMove = function(e) {
   const fBox = this.floatRect_.getBoundingClientRect();
   const rx = e.clientX - iBox.left;
   const fy = e.clientY - fBox.top;
-  const vx = Math.min(Math.max(0, rx), 99);
+  const vx = Math.min(Math.max(1, rx), 99);
   let value;
   if (fy < -Blockly.FieldNumberSlider.PADDING / 2) {
     value = Math.floor(vx / 10);
