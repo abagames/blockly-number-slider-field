@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Custom number field with 2d slider for Blockly",
   "scripts": {
-    "start": "webpack-serve --content=docs",
+    "start": "webpack-serve",
     "build": "webpack"
   },
   "author": "ABA",
